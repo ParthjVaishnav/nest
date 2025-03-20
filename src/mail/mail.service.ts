@@ -40,4 +40,17 @@ export class MailService {
       return { message: 'Email sending failed', error };
     }
   }
+
+
+  async sendAppointmentEmail(visitorEmail: string, date: string, allocatedTime: string) {
+    const formLink = `http://localhost:3000/form?date=${date}&time=${allocatedTime}&email=${visitorEmail}`;
+
+    await this.transporter.sendMail({
+      from: '"Company Name" <your_email@gmail.com>',
+      to: visitorEmail,
+      subject: 'Your Appointment Details',
+      html: `<p>Your appointment is scheduled for <strong>${date}</strong> at <strong>${allocatedTime}</strong>.</p>
+             <p>Click <a href="${formLink}">here</a> to complete your details.</p>`,
+    });
+  }
 }
